@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
+
 class GoogleSearchTest {
     companion object {
         lateinit var playwright: Playwright
@@ -46,12 +47,11 @@ class GoogleSearchTest {
             page.waitForLoadState(LoadState.NETWORKIDLE) // Ожидание загрузки страницы
 
             val expectedText = "котик" // Ожидаемый текст в результатах поиска
-            val elements = page.textContent(expectedText) // Получение текста, содержащего "котик"
+            val element = page.querySelector(".b_topTitle.mmtitle")
+            val elementText = element.textContent()
 
-            assertTrue(
-                elements.isNotEmpty(),
-                "Search results don't contain the expected text"
-            ) // Проверка наличия "кошек"
+            // Проверить, что элемент содержит текст "котик"
+            assertTrue(elementText.contains(expectedText), "Элемент не содержит текст 'котик'")
 
             page.close()
         }
